@@ -4,6 +4,7 @@ import Link from "next/link"
 import LogoutButton from "../components/LogoutButton"
 import SupabaseLogo from "../components/SupabaseLogo"
 import NextJsLogo from "../components/NextJsLogo"
+import { redirect } from "next/navigation"
 
 const resources = [
   {
@@ -45,25 +46,26 @@ export default async function Index() {
     data: { user },
   } = await supabase.auth.getUser()
 
+  if (user && user.email == process.env.NEXT_PUBLIC_ADMIN_MAIL) {
+    redirect("/admin")
+  }
+
+  if (user) {
+    redirect("/user")
+  }
+
   return (
     <div className="w-full flex flex-col items-center">
       <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
         <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm text-foreground">
           <div />
           <div>
-            {user ? (
-              <div className="flex items-center gap-4">
-                Hey, {user.user_metadata.name}!
-                <LogoutButton />
-              </div>
-            ) : (
-              <Link
-                href="/login"
-                className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
-              >
-                Login
-              </Link>
-            )}
+            <Link
+              href="/login"
+              className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
+            >
+              Login
+            </Link>
           </div>
         </div>
       </nav>

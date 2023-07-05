@@ -30,11 +30,13 @@ export default function Login() {
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const route = email == process.env.NEXT_PUBLIC_ADMIN_MAIL ? "/admin" : "/user"
+    console.log(route)
     await supabase.auth.signInWithPassword({
       email,
       password,
     })
-    router.push("/")
+    router.push(route)
     router.refresh()
   }
 
@@ -97,14 +99,27 @@ export default function Login() {
           <label className="text-md" htmlFor="password">
             Password
           </label>
-          <input
-            className="rounded-md px-4 py-2 bg-inherit border mb-6"
-            type="password"
-            name="password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            placeholder="••••••••"
-          />
+          {view === "sign-up" ? (
+            <input
+              className="rounded-md px-4 py-2 bg-inherit border mb-6"
+              type="password"
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              placeholder="••••••••"
+              pattern="^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z])(?=\D*\d)(?=.*?[_!#%])[A-Za-z0-9!#%]{8,32}$"
+              title="Passwords should have 1 Upper Case, 1 Lower Case, 1 Number, 1 Special (#%!_) and between the length 8 to 32"
+            />
+          ) : (
+            <input
+              className="rounded-md px-4 py-2 bg-inherit border mb-6"
+              type="password"
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              placeholder="••••••••"
+            />
+          )}
           {view === "sign-in" && (
             <>
               <button className="bg-green-700 rounded px-4 py-2 text-white mb-6">
