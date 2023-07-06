@@ -44,6 +44,17 @@ model FlightLeg {
   @@schema("public")
 }
 
+model LegInstance {
+  id         Int    @id @default(autoincrement())
+  flight_num String
+  leg_date   String
+  leg_amount Float
+  status     Int    @default(1)
+
+  @@unique([flight_num, leg_date])
+  @@schema("public")
+}
+
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model audit_log_entries {
   instance_id String?   @db.Uuid
