@@ -5,12 +5,9 @@ import {
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { PrismaClient } from "@prisma/client"
 
 const Admin = async () => {
   const supabase = createServerComponentClient({ cookies })
-  const prisma = new PrismaClient()
-  const ppl = await prisma.users.findMany()
 
   const {
     data: { user },
@@ -75,12 +72,6 @@ const Admin = async () => {
           </span>
         </div>
       </nav>
-      <div className="text-white">The users are</div>{" "}
-      <ul className="text-foreground">
-        {ppl.map((peep) => (
-          <li key={peep.id}>{peep?.raw_user_meta_data?.name}</li>
-        ))}
-      </ul>
     </div>
   )
 }
