@@ -48,6 +48,7 @@ export default function Example() {
   const handleFlightAdd = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setResCode(null)
+    // console.log(dAirportTime)
     const res = await fetch("/api/flights", {
       method: "POST",
       headers: {
@@ -112,6 +113,7 @@ export default function Example() {
                 ))}
               </Select>
               <Input
+                type="time"
                 size="lg"
                 label="Departure Time"
                 onChange={(e) => setDAirportTime(e.target.value)}
@@ -129,6 +131,7 @@ export default function Example() {
                 ))}
               </Select>
               <Input
+                type="time"
                 size="lg"
                 label="Arrival Time"
                 onChange={(e) => setAAirportTime(e.target.value)}
@@ -148,7 +151,9 @@ export default function Example() {
           <Alert color="green">Added Sucessfully</Alert>
         ) : resCode == "409" ? (
           <Alert color="red">Cannot add duplicates!</Alert>
-        ) : (
+        ) : resCode == "400" ? (
+          <Alert color="red"> Cannot have the same Arrival and Departure Time</Alert> 
+        ): (
           <Alert color="red">Internal Server Error</Alert>
         )
       ) : null}

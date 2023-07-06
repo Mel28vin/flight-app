@@ -22,7 +22,11 @@ const TABLE_HEAD = [
 ]
 
 export default async function Flights() {
-  const flights = await prisma.flightLeg.findMany()
+  const flights = await prisma.flightLeg.findMany({
+    where: {
+      status : 1
+    }
+  })
 
   return (
     <Card color="transparent" className="h-full w-full">

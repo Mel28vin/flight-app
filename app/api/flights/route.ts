@@ -14,8 +14,14 @@ export async function POST(request: Request) {
   try {
     const json = await request.json()
 
-    console.log(json)
-
+    if (json.departure_airport_name == json.arrival_airport_name) {
+      return new NextResponse(
+        "Cannot have same places as departure and destination",
+        {
+          status: 400,
+        }
+      )
+    }
     const user = await prisma.flightLeg.create({
       data: json,
     })
