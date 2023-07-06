@@ -30,10 +30,7 @@ export default function Example() {
 
   return (
     <Card color="transparent" shadow={false} className="text-foreground">
-      <Typography variant="h4">Add Airports</Typography>
-      <Typography color="white" className="mt-1 font-normal">
-        Enter the required details
-      </Typography>
+      <Typography variant="h4">Add Airport</Typography>
       <form
         className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
         onSubmit={handleAirportAdd}
@@ -41,12 +38,12 @@ export default function Example() {
         <div className="mb-4 flex flex-col gap-6">
           <Input
             size="lg"
-            label="Name"
+            label="Airport Name"
             onChange={(e) => setName(e.target.value)}
           />
           <Input
             size="lg"
-            label="Code"
+            label="Airport Code"
             onChange={(e) => setCode(e.target.value)}
           />
           <Input

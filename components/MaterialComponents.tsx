@@ -12,11 +12,13 @@ import {
   Chip,
   CardFooter,
   Tabs,
+  Select,
   TabsHeader,
   Tab,
   Avatar,
   IconButton,
   Tooltip,
+  Option,
   Checkbox,
 } from "@material-tailwind/react"
 
@@ -25,6 +27,8 @@ export {
   Button,
   Card,
   Alert,
+  Option,
+  Select,
   Typography,
   CardHeader,
   Input,

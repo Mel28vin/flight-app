@@ -12,7 +12,7 @@ datasource db {
 
 model Airport {
   airport_code String
-  name         String
+  name         String @unique
   city         String
   state        String
   status       Int    @default(1)
