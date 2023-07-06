@@ -44,7 +44,9 @@ export async function DELETE(request: Request) {
   try {
     const json = await request.json()
     await prisma.legInstance.update({
-      where: json,
+      where: {
+        flight_num_leg_date: json,
+      },
       data: { status: 0 },
     })
 
