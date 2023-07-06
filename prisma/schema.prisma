@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Airport {
-  airport_code String
+  airport_code String @unique
   name         String @unique
   city         String
   state        String
@@ -19,6 +19,28 @@ model Airport {
 
   @@id([airport_code, name])
   @@unique([airport_code, name])
+  @@schema("public")
+}
+
+model Airline {
+  id           Int    @id @default(autoincrement())
+  airline_name String @unique
+  status       Int    @default(1)
+
+  @@schema("public")
+}
+
+model FlightLeg {
+  id                       Int    @id @default(autoincrement())
+  flight_number            String @unique
+  airline_name             String
+  max_seats                Int
+  departure_airport_name   String
+  scheduled_departure_time String
+  arrival_airport_name     String
+  scheduled_arrival_time   String
+  status                   Int    @default(1)
+
   @@schema("public")
 }
 
