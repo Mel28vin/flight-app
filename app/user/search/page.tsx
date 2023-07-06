@@ -11,6 +11,7 @@ import {
   Button,
 } from "@/components/MaterialComponents"
 import { Airport, FlightLeg } from "@prisma/client"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useState, useEffect } from "react"
 
 const TABLE_HEAD = [
@@ -27,7 +28,9 @@ const TABLE_HEAD = [
 ]
 
 export default function Search() {
+  const supabase = createClientComponentClient()
   const [resCode, setResCode] = useState<string | null>(null)
+  const [bookResCode, setBookResCode] = useState<string | null>(null)
   const [dAirport, setDAirport] = useState<string | null | undefined>(null)
   const [aAirport, setAAirport] = useState<string | null | undefined>(null)
   const [inputDate, setInputDate] = useState<string>("")
@@ -61,6 +64,7 @@ export default function Search() {
       }),
     })
     const data = await res.json()
+    console.log(data)
     const _flights = (await data) as FlightLeg[]
     setFlights(_flights)
     setResCode(res.status.toString())
@@ -77,7 +81,34 @@ export default function Search() {
     scheduled_departure_date: string,
     scheduled_arrival_date: string
   ) => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    if (!user) throw new Error("Log in")
+
     console.log(flight_number)
+    const res = await fetch("/api/book", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        flight_number: flight_number,
+        airline_name: airline_name,
+        departure_airport_name: departure_airport_name,
+        arrival_airport_name: arrival_airport_name,
+        scheduled_departure_time: scheduled_departure_time,
+        scheduled_arrival_time: scheduled_arrival_time,
+        scheduled_departure_date: scheduled_departure_date,
+        scheduled_arrival_date: scheduled_arrival_date,
+        customer_name: user.user_metadata.name,
+        customer_email: user.email,
+        status: 1,
+      }),
+    })
+    console.log(res.status)
+    setBookResCode(res.status.toString())
   }
 
   return (
@@ -312,6 +343,15 @@ export default function Search() {
           </table>
         </CardBody>
       </Card>
+      {bookResCode ? (
+        bookResCode == "201" ? (
+          <Alert color="green">Booked Sucessfully</Alert>
+        ) : bookResCode == "P2002" ? (
+          <Alert color="red">No Duplicates are Allowed!</Alert>
+        ) : (
+          <Alert color="red">Internal Server Error</Alert>
+        )
+      ) : null}
     </div>
   )
 }

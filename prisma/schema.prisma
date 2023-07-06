@@ -62,8 +62,8 @@ model Reservation {
   id                       Int    @id @default(autoincrement())
   flight_number            String
   airline_name             String
-  customer_name            String 
-  customer_email           String 
+  customer_name            String
+  customer_email           String
   departure_airport_name   String
   scheduled_departure_date String
   scheduled_departure_time String
@@ -72,7 +72,6 @@ model Reservation {
   scheduled_arrival_time   String
   status                   Int    @default(1)
 
-  @@unique([flight_number, scheduled_departure_date])
   @@schema("public")
 }
 
