@@ -51,6 +51,7 @@ export default function Search() {
 
   const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setResCode(null)
     const res = await fetch("/api/find", {
       method: "POST",
       headers: {
@@ -86,8 +87,12 @@ export default function Search() {
     } = await supabase.auth.getUser()
 
     if (!user) throw new Error("Log in")
-
+    setBookResCode(null)
     console.log(flight_number)
+    if (max_seats < 1) {
+      setBookResCode("400")
+      return
+    }
     const res = await fetch("/api/book", {
       method: "POST",
       headers: {
@@ -107,7 +112,19 @@ export default function Search() {
         status: 1,
       }),
     })
-    console.log(res.status)
+
+    const patchRes = await fetch("/api/book", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        flight_number: flight_number,
+        scheduled_departure_date: scheduled_departure_date,
+        max_seats: max_seats,
+      }),
+    })
+    console.log(patchRes.status)
     setBookResCode(res.status.toString())
   }
 
@@ -348,6 +365,8 @@ export default function Search() {
           <Alert color="green">Booked Sucessfully</Alert>
         ) : bookResCode == "P2002" ? (
           <Alert color="red">No Duplicates are Allowed!</Alert>
+        ) : bookResCode == "400" ? (
+          <Alert color="red"> No seats available </Alert>
         ) : (
           <Alert color="red">Internal Server Error</Alert>
         )

@@ -33,14 +33,18 @@ export async function POST(request: Request) {
   }
 }
 
-export async function DELETE(request: Request) {
+export async function PATCH(request: Request) {
   try {
     const json = await request.json()
+    console.log(json.max_seats)
     await prisma.flightLeg.update({
       where: {
-        flight_number_scheduled_departure_date: json,
+        flight_number_scheduled_departure_date: {
+          flight_number: json.flight_number,
+          scheduled_departure_date: json.scheduled_departure_date,
+        },
       },
-      data: { status: 0 },
+      data: { max_seats: json.max_seats - 1 },
     })
 
     return new NextResponse(null, { status: 204 })
