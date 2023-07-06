@@ -16,6 +16,8 @@ export default function Example() {
   const [seats, setSeats] = useState("")
   const [dAirport, setDAirport] = useState<string | undefined>("")
   const [aAirport, setAAirport] = useState<string | undefined>("")
+  const [aAirportDate, setAAirportDate] = useState("")
+  const [dAirportDate, setDAirportDate] = useState("")
   const [aAirportTime, setAAirportTime] = useState("")
   const [dAirportTime, setDAirportTime] = useState("")
   const [resCode, setResCode] = useState<string | null>(null)
@@ -60,8 +62,10 @@ export default function Example() {
         max_seats: +seats,
         departure_airport_name: dAirport,
         scheduled_departure_time: dAirportTime,
+        scheduled_departure_date: dAirportDate,
         arrival_airport_name: aAirport,
         scheduled_arrival_time: aAirportTime,
+        scheduled_arrival_date: aAirportDate,
       }),
     })
     setResCode(res.status.toString())
@@ -113,6 +117,12 @@ export default function Example() {
                 ))}
               </Select>
               <Input
+                type="date"
+                size="lg"
+                label="Departure Date"
+                onChange={(e) => setDAirportDate(e.target.value)}
+              />
+              <Input
                 type="time"
                 size="lg"
                 label="Departure Time"
@@ -130,6 +140,12 @@ export default function Example() {
                   <Option value={name}> {name} </Option>
                 ))}
               </Select>
+              <Input
+                type="date"
+                size="lg"
+                label="Arrival Date"
+                onChange={(e) => setAAirportDate(e.target.value)}
+              />
               <Input
                 type="time"
                 size="lg"
@@ -152,8 +168,11 @@ export default function Example() {
         ) : resCode == "409" ? (
           <Alert color="red">Cannot add duplicates!</Alert>
         ) : resCode == "400" ? (
-          <Alert color="red"> Cannot have the same Arrival and Departure Time</Alert> 
-        ): (
+          <Alert color="red">
+            {" "}
+            Cannot have the same Arrival and Departure Time
+          </Alert>
+        ) : (
           <Alert color="red">Internal Server Error</Alert>
         )
       ) : null}

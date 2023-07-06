@@ -32,15 +32,18 @@ model Airline {
 
 model FlightLeg {
   id                       Int    @id @default(autoincrement())
-  flight_number            String @unique
+  flight_number            String
   airline_name             String
   max_seats                Int
   departure_airport_name   String
+  scheduled_departure_date String
   scheduled_departure_time String
   arrival_airport_name     String
+  scheduled_arrival_date   String
   scheduled_arrival_time   String
   status                   Int    @default(1)
 
+  @@unique([flight_number, scheduled_departure_date])
   @@schema("public")
 }
 

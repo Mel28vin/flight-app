@@ -10,7 +10,7 @@ import {
 import { FlightLeg } from "@prisma/client"
 import { useState, useEffect } from "react"
 
-export default function FlightDelete() {
+export default function ScheduleDelete() {
   const [resCode, setResCode] = useState<string | null>(null)
   const [flightNum, setFlightNum] = useState<string | null | undefined>(null)
   const [inputDate, setInputDate] = useState<string>("")
@@ -28,17 +28,14 @@ export default function FlightDelete() {
     void loadFlights()
   })
 
-  const handleFlightRemove = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleScheduleRemove = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const res = await fetch("/api/flights", {
+    const res = await fetch("/api/schedule", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        flight_number: flightNum,
-        scheduled_departure_date: inputDate,
-      }),
+      body: JSON.stringify({ flight_num: flightNum, leg_date: inputDate }),
     })
     setResCode(res.status.toString())
   }
@@ -52,7 +49,7 @@ export default function FlightDelete() {
         </Typography>
         <form
           className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
-          onSubmit={handleFlightRemove}
+          onSubmit={handleScheduleRemove}
         >
           {flights ? (
             <>
@@ -70,9 +67,9 @@ export default function FlightDelete() {
                   ))}
                 </Select>
                 <Input
-                  type="date"
+                  type="datetime-local"
                   size="lg"
-                  label="Departure Date"
+                  label="Leg Date"
                   onChange={(e) => setInputDate(e.target.value)}
                 />
               </div>
@@ -88,7 +85,7 @@ export default function FlightDelete() {
           resCode == "204" ? (
             <Alert color="green">Deleted Sucessfully</Alert>
           ) : resCode == "P2025" ? (
-            <Alert color="red">No Such Flight Found</Alert>
+            <Alert color="red">No Such Schedule Found</Alert>
           ) : (
             <Alert color="red">Internal Server Error</Alert>
           )

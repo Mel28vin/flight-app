@@ -44,14 +44,18 @@ export async function DELETE(request: Request) {
   try {
     const json = await request.json()
     await prisma.flightLeg.update({
-      where: json,
+      where: {
+        flight_number_scheduled_departure_date: json,
+      },
       data: { status: 0 },
     })
 
     return new NextResponse(null, { status: 204 })
   } catch (error: any) {
     if (error.code === "P2025") {
-      return new NextResponse("No airport with name found", { status: 404 })
+      return new NextResponse("No flight with the details found", {
+        status: 404,
+      })
     }
 
     return new NextResponse(error.message, { status: 500 })

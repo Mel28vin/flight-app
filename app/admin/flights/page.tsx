@@ -16,16 +16,18 @@ const TABLE_HEAD = [
   "Flight Number",
   "Max Seats",
   "Departure Airport Name",
+  "Departure Date",
   "Departure Time",
   "Arrival Airport Name",
+  "Arrival Date",
   "Arrival Time",
 ]
 
 export default async function Flights() {
   const flights = await prisma.flightLeg.findMany({
     where: {
-      status : 1
-    }
+      status: 1,
+    },
   })
 
   return (
@@ -98,6 +100,8 @@ export default async function Flights() {
                 arrival_airport_name,
                 scheduled_departure_time,
                 scheduled_arrival_time,
+                scheduled_departure_date,
+                scheduled_arrival_date,
               }) => {
                 const classes = "p-4 border-b border-gray-600"
 
@@ -153,6 +157,15 @@ export default async function Flights() {
                         color="white"
                         className="font-normal"
                       >
+                        {scheduled_departure_date}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="white"
+                        className="font-normal"
+                      >
                         {scheduled_departure_time}
                       </Typography>
                     </td>
@@ -163,6 +176,15 @@ export default async function Flights() {
                         className="font-normal"
                       >
                         {arrival_airport_name}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="white"
+                        className="font-normal"
+                      >
+                        {scheduled_arrival_date}
                       </Typography>
                     </td>
                     <td className={classes}>
