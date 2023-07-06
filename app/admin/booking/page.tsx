@@ -6,6 +6,7 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import { PrismaClient } from "@prisma/client"
+import { Button } from "@/components/MaterialComponents"
 
 const Admin = async () => {
   const supabase = createServerComponentClient({ cookies })
@@ -81,8 +82,43 @@ const Admin = async () => {
           <li key={peep.id}>{peep?.raw_user_meta_data?.name}</li>
         ))}
       </ul>
+      <Booking />
     </div>
   )
 }
 
+function Booking() {
+  return (
+    <div className="text-foreground">
+      <h1 className="text-3xl my-10"> All Bookings </h1>
+      <table className="table-auto border-collapse border border-slate-500 text-foreground  ...">
+        <thead>
+          <tr>
+            <th className="border p-2 border-slate-600 ...">State</th>
+            <th className="border p-2  border-slate-600 ...">City</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td className="border p-2 border-slate-700 ...">Indiana</td>
+            <td className="border p-2 border-slate-700 ...">Indianapolis</td>
+          </tr>
+          <tr>
+            <td className="border border-slate-700 ...">Ohio</td>
+            <td className="border border-slate-700 ...">Columbus</td>
+          </tr>
+          <tr>
+            <td className="border border-slate-700 ...">Michigan</td>
+            <td className="border border-slate-700 ...">Detroit</td>
+          </tr>
+        </tbody>
+      </table>
+      <Example />
+    </div>
+  )
+}
+
+function Example() {
+  return <Button>Button</Button>
+}
 export default Admin

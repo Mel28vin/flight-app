@@ -1,0 +1,41 @@
+"use client"
+
+import {
+  ThemeProvider,
+  Button,
+  Card,
+  Typography,
+  CardHeader,
+  Input,
+  Alert,
+  CardBody,
+  Chip,
+  CardFooter,
+  Tabs,
+  TabsHeader,
+  Tab,
+  Avatar,
+  IconButton,
+  Tooltip,
+  Checkbox,
+} from "@material-tailwind/react"
+
+export {
+  ThemeProvider,
+  Button,
+  Card,
+  Alert,
+  Typography,
+  CardHeader,
+  Input,
+  Checkbox,
+  CardBody,
+  Chip,
+  CardFooter,
+  Tabs,
+  TabsHeader,
+  Tab,
+  Avatar,
+  IconButton,
+  Tooltip,
+}
