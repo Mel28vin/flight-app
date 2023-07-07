@@ -27,10 +27,10 @@ export default async function Index() {
   return (
     <div className="w-full flex flex-col items-center">
       <div className="text-foreground">
-        <h1 className="text-5xl mt-24 mb-5 max-w-xl">
+        <h1 className="text-5xl mt-24 mb-5 max-w-xl text-center">
           Welcome to the Flight Booking Application!
         </h1>
-        <h3 className="text-lg text-gray-500 mb-16">
+        <h3 className="text-lg text-gray-500 mb-16 text-center">
           Please login to continue
         </h3>
         <div className="flex items-center justify-between">

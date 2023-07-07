@@ -17,7 +17,7 @@ import { useState, useEffect } from "react"
 const TABLE_HEAD = [
   "Airline Name",
   "Flight Number",
-  "Max Seats",
+  "Available Seats",
   "Departure Airport Name",
   "Departure Date",
   "Departure Time",
@@ -44,6 +44,8 @@ export default function Search() {
         const data = res.json()
         const _airports = (await data) as Airport[]
         setAirports(_airports)
+        setDAirport(_airports.at(0)?.name)
+        setAAirport(_airports.at(1)?.name)
       }
     }
     void loadAirports()
@@ -52,6 +54,7 @@ export default function Search() {
   const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setResCode(null)
+    setBookResCode(null)
     const res = await fetch("/api/find", {
       method: "POST",
       headers: {
@@ -93,6 +96,7 @@ export default function Search() {
       setBookResCode("400")
       return
     }
+    setFlights(null)
     const res = await fetch("/api/book", {
       method: "POST",
       headers: {
@@ -112,7 +116,7 @@ export default function Search() {
         status: 1,
       }),
     })
-
+    setBookResCode(null)
     const patchRes = await fetch("/api/book", {
       method: "PATCH",
       headers: {
@@ -150,10 +154,13 @@ export default function Search() {
                   type="date"
                   size="lg"
                   label="Departure Date"
+                  required
                   onChange={(e) => setInputDate(e.target.value)}
                 />
                 <Select
                   label="Departure Airport Name"
+                  defaultValue={airports.at(0)?.name}
+                  value={airports.at(0)?.name}
                   animate={{
                     mount: { y: 0 },
                     unmount: { y: 25 },
@@ -166,6 +173,8 @@ export default function Search() {
                 </Select>
                 <Select
                   label="Arrival Airport Name"
+                  defaultValue={airports.at(1)?.name}
+                  value={airports.at(1)?.name}
                   animate={{
                     mount: { y: 0 },
                     unmount: { y: 25 },
@@ -185,190 +194,211 @@ export default function Search() {
             <div> Loading...</div>
           )}
         </form>
-        {resCode ? (
-          resCode == "200" ? (
-            <Alert color="green">Searched Sucessfully</Alert>
-          ) : resCode == "P2025" ? (
-            <Alert color="red">No Such Schedule Found</Alert>
-          ) : (
-            <Alert color="red">Internal Server Error</Alert>
-          )
-        ) : null}
+        {/* {resCode ? ( */}
+        {/*   resCode == "200" ? ( */}
+        {/*     <Alert color="green">Searched Sucessfully</Alert> */}
+        {/*   ) : resCode == "P2025" ? ( */}
+        {/*     <Alert color="red">No Such Schedule Found</Alert> */}
+        {/*   ) : ( */}
+        {/*     <Alert color="red">Internal Server Error</Alert> */}
+        {/*   ) */}
+        {/* ) : null} */}
       </Card>
-      <Card color="transparent" className="h-full w-full">
-        <CardHeader
-          color="transparent"
-          floated={false}
-          shadow={false}
-          className="rounded-none"
-        >
-          <div className="mb-4 flex items-center justify-between gap-8">
-            <div>
-              <Typography variant="h5" className="text-foreground">
-                Available Flights
-              </Typography>
-            </div>
+      {flights ? (
+        flights.length == 0 ? (
+          <div className="text-foreground text-3xl flex justify-self-center items-center">
+            {" "}
+            No Available Flights!
           </div>
-        </CardHeader>
-        <CardBody color="transparent" className="overflow-scroll px-0">
-          <table className="mt-4 w-full min-w-max table-auto text-center">
-            <thead>
-              <tr>
-                {TABLE_HEAD.map((head) => (
-                  <th key={head} className="border-y border-blue-gray-200 p-4">
-                    <Typography
-                      variant="small"
-                      className="font-normal text-foreground leading-none opacity-70"
-                    >
-                      {head}
-                    </Typography>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {flights?.map(
-                ({
-                  flight_number,
-                  airline_name,
-                  max_seats,
-                  departure_airport_name,
-                  arrival_airport_name,
-                  scheduled_departure_time,
-                  scheduled_arrival_time,
-                  scheduled_departure_date,
-                  scheduled_arrival_date,
-                }) => {
-                  const classes = "p-4 border-b border-gray-600"
+        ) : (
+          <Card color="transparent" className="h-full w-full">
+            <CardHeader
+              color="transparent"
+              floated={false}
+              shadow={false}
+              className="rounded-none"
+            >
+              <div className="mb-4 flex items-center justify-between gap-8">
+                <div>
+                  <Typography variant="h5" className="text-foreground">
+                    Available Flights
+                  </Typography>
+                </div>
+              </div>
+            </CardHeader>
+            <CardBody color="transparent" className="overflow-auto px-0">
+              <table className="mt-4 w-full min-w-max table-auto text-center">
+                <thead>
+                  <tr>
+                    {TABLE_HEAD.map((head) => (
+                      <th
+                        key={head}
+                        className="border-y border-blue-gray-200 p-4"
+                      >
+                        <Typography
+                          variant="small"
+                          className="font-normal text-foreground leading-none opacity-70"
+                        >
+                          {head}
+                        </Typography>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {flights.map(
+                    ({
+                      flight_number,
+                      airline_name,
+                      max_seats,
+                      departure_airport_name,
+                      arrival_airport_name,
+                      scheduled_departure_time,
+                      scheduled_arrival_time,
+                      scheduled_departure_date,
+                      scheduled_arrival_date,
+                    }) => {
+                      const classes = "p-4 border-b border-gray-600"
 
-                  return (
-                    <tr key={flight_number}>
-                      <td className={classes}>
-                        <div className="flex items-center gap-3">
-                          <div className="flex flex-col">
+                      return (
+                        <tr key={flight_number}>
+                          <td className={classes}>
+                            <div className="flex items-center gap-3">
+                              <div className="flex flex-col">
+                                <Typography
+                                  variant="small"
+                                  color="white"
+                                  className="font-normal"
+                                >
+                                  {airline_name}
+                                </Typography>
+                              </div>
+                            </div>
+                          </td>
+                          <td className={classes}>
+                            <div className="flex flex-col">
+                              <Typography
+                                variant="small"
+                                color="white"
+                                className="font-normal"
+                              >
+                                {flight_number}
+                              </Typography>
+                            </div>
+                          </td>
+                          <td className={classes}>
+                            <div className="w-max">
+                              <Typography
+                                variant="small"
+                                color="white"
+                                className="font-normal"
+                              >
+                                {max_seats}
+                              </Typography>
+                            </div>
+                          </td>
+                          <td className={classes}>
                             <Typography
                               variant="small"
                               color="white"
                               className="font-normal"
                             >
-                              {airline_name}
+                              {departure_airport_name}
                             </Typography>
-                          </div>
-                        </div>
-                      </td>
-                      <td className={classes}>
-                        <div className="flex flex-col">
-                          <Typography
-                            variant="small"
-                            color="white"
-                            className="font-normal"
-                          >
-                            {flight_number}
-                          </Typography>
-                        </div>
-                      </td>
-                      <td className={classes}>
-                        <div className="w-max">
-                          <Typography
-                            variant="small"
-                            color="white"
-                            className="font-normal"
-                          >
-                            {max_seats}
-                          </Typography>
-                        </div>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="white"
-                          className="font-normal"
-                        >
-                          {departure_airport_name}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="white"
-                          className="font-normal"
-                        >
-                          {scheduled_departure_date}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="white"
-                          className="font-normal"
-                        >
-                          {scheduled_departure_time}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="white"
-                          className="font-normal"
-                        >
-                          {arrival_airport_name}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="white"
-                          className="font-normal"
-                        >
-                          {scheduled_arrival_date}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="white"
-                          className="font-normal"
-                        >
-                          {scheduled_arrival_time}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Button
-                          className="flex items-center gap-3"
-                          onClick={(_e) =>
-                            handleBooking(
-                              flight_number,
-                              airline_name,
-                              max_seats,
-                              departure_airport_name,
-                              arrival_airport_name,
-                              scheduled_departure_time,
-                              scheduled_arrival_time,
-                              scheduled_departure_date,
-                              scheduled_arrival_date
-                            )
-                          }
-                        >
-                          Book
-                        </Button>
-                      </td>
-                    </tr>
-                  )
-                }
-              )}
-            </tbody>
-          </table>
-        </CardBody>
-      </Card>
+                          </td>
+                          <td className={classes}>
+                            <Typography
+                              variant="small"
+                              color="white"
+                              className="font-normal"
+                            >
+                              {scheduled_departure_date}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                            <Typography
+                              variant="small"
+                              color="white"
+                              className="font-normal"
+                            >
+                              {scheduled_departure_time}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                            <Typography
+                              variant="small"
+                              color="white"
+                              className="font-normal"
+                            >
+                              {arrival_airport_name}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                            <Typography
+                              variant="small"
+                              color="white"
+                              className="font-normal"
+                            >
+                              {scheduled_arrival_date}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                            <Typography
+                              variant="small"
+                              color="white"
+                              className="font-normal"
+                            >
+                              {scheduled_arrival_time}
+                            </Typography>
+                          </td>
+                          <td className={classes}>
+                            <Button
+                              className="flex items-center gap-3"
+                              onClick={(_e) =>
+                                handleBooking(
+                                  flight_number,
+                                  airline_name,
+                                  max_seats,
+                                  departure_airport_name,
+                                  arrival_airport_name,
+                                  scheduled_departure_time,
+                                  scheduled_arrival_time,
+                                  scheduled_departure_date,
+                                  scheduled_arrival_date
+                                )
+                              }
+                            >
+                              Book
+                            </Button>
+                          </td>
+                        </tr>
+                      )
+                    }
+                  )}
+                </tbody>
+              </table>
+            </CardBody>
+          </Card>
+        )
+      ) : null}
       {bookResCode ? (
         bookResCode == "201" ? (
-          <Alert color="green">Booked Sucessfully</Alert>
+          <Alert color="green" className="w-28 pl-4 mx-0 text-center">
+            Booked Sucessfully
+          </Alert>
         ) : bookResCode == "P2002" ? (
-          <Alert color="red">No Duplicates are Allowed!</Alert>
+          <Alert color="red" className="w-28 pl-4 mx-0 text-center">
+            No Duplicates are Allowed!
+          </Alert>
         ) : bookResCode == "400" ? (
-          <Alert color="red"> No seats available </Alert>
+          <Alert color="red" className="w-28 pl-4 mx-0 text-center">
+            {" "}
+            No seats available{" "}
+          </Alert>
         ) : (
-          <Alert color="red">Internal Server Error</Alert>
+          <Alert color="red" className="w-28 pl-4 mx-0 text-center">
+            Internal Server Error
+          </Alert>
         )
       ) : null}
     </div>
