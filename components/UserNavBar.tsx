@@ -17,7 +17,7 @@ interface UserProps {
 const UserNavBar: React.FC<UserProps> = ({ name }) => {
   return (
     <nav className="flex items-center justify-between gap-3 text-foreground border-b border-b-foreground/10 h-16">
-      <Link href="/" className="group ml-2">
+      <Link href="/user" className="group ml-2">
         <h2 className="p-2 text-lg font-semibold tracking-tighter">
           Hello {name}
         </h2>

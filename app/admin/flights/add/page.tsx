@@ -31,6 +31,7 @@ export default function Example() {
         const data = res.json()
         const _airlines = (await data) as Airline[]
         setAirlines(_airlines)
+        setName(_airlines.at(0)?.airline_name)
       }
       // console.log(airlines)
     }
@@ -40,6 +41,8 @@ export default function Example() {
         const data = res.json()
         const _airports = (await data) as Airport[]
         setAirports(_airports)
+        setDAirport(_airports.at(0)?.name)
+        setAAirport(_airports.at(1)?.name)
       }
       // console.log(airports)
     }
@@ -73,109 +76,124 @@ export default function Example() {
   }
 
   return (
-    <Card color="transparent" shadow={false} className="text-foreground">
-      <Typography variant="h4">Add Flight</Typography>
-      <form
-        className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
-        onSubmit={handleFlightAdd}
-      >
-        {airlines && airports ? (
-          <>
-            <div className="mb-4 flex flex-col gap-6">
-              <Select
-                label="Airline Name"
-                animate={{
-                  mount: { y: 0 },
-                  unmount: { y: 25 },
-                }}
-                onChange={(e) => setName(e)}
-              >
-                {airlines.map(({ airline_name }) => (
-                  <Option value={airline_name}> {airline_name} </Option>
-                ))}
-              </Select>
-              <Input
-                size="lg"
-                label="Flight Number"
-                onChange={(e) => setNum(e.target.value)}
-              />
-              <Input
-                size="lg"
-                label="Max Seats"
-                onChange={(e) => setSeats(e.target.value)}
-              />
-              <Select
-                label="Departure Airport Name"
-                animate={{
-                  mount: { y: 0 },
-                  unmount: { y: 25 },
-                }}
-                onChange={(e) => setDAirport(e)}
-              >
-                {airports.map(({ name }) => (
-                  <Option value={name}> {name} </Option>
-                ))}
-              </Select>
-              <Input
-                type="date"
-                size="lg"
-                label="Departure Date"
-                onChange={(e) => setDAirportDate(e.target.value)}
-              />
-              <Input
-                type="time"
-                size="lg"
-                label="Departure Time"
-                onChange={(e) => setDAirportTime(e.target.value)}
-              />
-              <Select
-                label="Arrival Airport Name"
-                animate={{
-                  mount: { y: 0 },
-                  unmount: { y: 25 },
-                }}
-                onChange={(e) => setAAirport(e)}
-              >
-                {airports.map(({ name }) => (
-                  <Option value={name}> {name} </Option>
-                ))}
-              </Select>
-              <Input
-                type="date"
-                size="lg"
-                label="Arrival Date"
-                onChange={(e) => setAAirportDate(e.target.value)}
-              />
-              <Input
-                type="time"
-                size="lg"
-                label="Arrival Time"
-                onChange={(e) => setAAirportTime(e.target.value)}
-              />
-            </div>
-            <button className="mt-6 middle none center w-full rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+    <div className="flex items-center justify-center mt-20">
+      <Card color="transparent" shadow={false} className="text-foreground">
+        <Typography variant="h4">Add Flight</Typography>
+        <form
+          className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
+          onSubmit={handleFlightAdd}
+        >
+          {airlines && airports ? (
+            <>
+              <div className="mb-4 flex flex-col gap-6">
+                <Select
+                  label="Airline Name"
+                  value={airlines.at(0)?.airline_name}
+                  animate={{
+                    mount: { y: 0 },
+                    unmount: { y: 25 },
+                  }}
+                  onChange={(e) => setName(e)}
+                >
+                  {airlines.map(({ airline_name }) => (
+                    <Option value={airline_name}> {airline_name} </Option>
+                  ))}
+                </Select>
+                <Input
+                  size="lg"
+                  label="Flight Number"
+                  pattern="^[0-9]+$"
+                  title="Please enter only numerical digits"
+                  required
+                  onChange={(e) => setNum(e.target.value)}
+                />
+                <Input
+                  size="lg"
+                  label="Max Seats"
+                  pattern="^[0-9]+$"
+                  title="Please enter only numerical digits"
+                  required
+                  onChange={(e) => setSeats(e.target.value)}
+                />
+                <Select
+                  label="Departure Airport Name"
+                  value={airports.at(0)?.name}
+                  animate={{
+                    mount: { y: 0 },
+                    unmount: { y: 25 },
+                  }}
+                  onChange={(e) => setDAirport(e)}
+                >
+                  {airports.map(({ name }) => (
+                    <Option value={name}> {name} </Option>
+                  ))}
+                </Select>
+                <Input
+                  type="date"
+                  size="lg"
+                  label="Departure Date"
+                  required
+                  onChange={(e) => setDAirportDate(e.target.value)}
+                />
+                <Input
+                  type="time"
+                  size="lg"
+                  label="Departure Time"
+                  required
+                  onChange={(e) => setDAirportTime(e.target.value)}
+                />
+                <Select
+                  label="Arrival Airport Name"
+                  value={airports.at(1)?.name}
+                  animate={{
+                    mount: { y: 0 },
+                    unmount: { y: 25 },
+                  }}
+                  onChange={(e) => setAAirport(e)}
+                >
+                  {airports.map(({ name }) => (
+                    <Option value={name}> {name} </Option>
+                  ))}
+                </Select>
+                <Input
+                  type="date"
+                  size="lg"
+                  label="Arrival Date"
+                  required
+                  onChange={(e) => setAAirportDate(e.target.value)}
+                />
+                <Input
+                  type="time"
+                  size="lg"
+                  label="Arrival Time"
+                  required
+                  onChange={(e) => setAAirportTime(e.target.value)}
+                />
+              </div>
+              <button className="my-6 middle none center w-full rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                {" "}
+                Submit
+              </button>
+            </>
+          ) : (
+            <div> Loading... </div>
+          )}
+        </form>
+        {resCode ? (
+          resCode == "201" ? (
+            <Alert color="green">Added Sucessfully</Alert>
+          ) : resCode == "409" ? (
+            <Alert color="red">Cannot add duplicates!</Alert>
+          ) : resCode == "400" ? (
+            <Alert color="red">
               {" "}
-              Submit
-            </button>
-          </>
-        ) : (
-          <div> Loading... </div>
-        )}
-      </form>
-      {resCode ? (
-        resCode == "201" ? (
-          <Alert color="green">Added Sucessfully</Alert>
-        ) : resCode == "409" ? (
-          <Alert color="red">Cannot add duplicates!</Alert>
-        ) : resCode == "400" ? (
-          <Alert color="red">
-            {" "}
-            Cannot have the same Arrival and Departure Time
-          </Alert>
-        ) : (
-          <Alert color="red">Internal Server Error</Alert>
-        )
-      ) : null}
-    </Card>
+              Cannot have the same Arrival and Departure Time
+            </Alert>
+          ) : (
+            <Alert color="red">Internal Server Error</Alert>
+          )
+        ) : null}
+      </Card>
+    </div>
   )
 }

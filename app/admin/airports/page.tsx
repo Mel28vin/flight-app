@@ -1,9 +1,7 @@
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline"
-import { UserPlusIcon, ArchiveBoxXMarkIcon } from "@heroicons/react/24/solid"
+import { UserPlusIcon } from "@heroicons/react/24/solid"
 import {
   Card,
   CardHeader,
-  Input,
   Typography,
   Button,
   CardBody,
@@ -14,7 +12,11 @@ import Link from "next/link"
 const TABLE_HEAD = ["Airport Code", "Airport Name", "City", "State"]
 
 export default async function Airports() {
-  const airports = await prisma.airport.findMany()
+  const airports = await prisma.airport.findMany({
+    where: {
+      status: 1,
+    },
+  })
 
   return (
     <Card color="transparent" className="h-full w-full">

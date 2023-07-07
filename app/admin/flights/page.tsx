@@ -12,7 +12,7 @@ import Link from "next/link"
 const TABLE_HEAD = [
   "Airline Name",
   "Flight Number",
-  "Max Seats",
+  "Available Seats",
   "Departure Airport Name",
   "Departure Date",
   "Departure Time",

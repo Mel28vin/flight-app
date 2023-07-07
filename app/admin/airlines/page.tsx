@@ -73,7 +73,7 @@ export default async function Airlines() {
             </tr>
           </thead>
           <tbody>
-            {airlines.map(({ id, airline_name }) => {
+            {airlines.map(({ airline_name }, index) => {
               const classes = "p-4 border-b border-gray-600"
 
               return (
@@ -86,7 +86,7 @@ export default async function Airlines() {
                           color="white"
                           className="font-normal"
                         >
-                          {id}
+                          {index + 1}
                         </Typography>
                       </div>
                     </div>

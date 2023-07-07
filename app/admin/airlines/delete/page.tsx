@@ -23,15 +23,14 @@ export default function Example() {
         const data = res.json()
         const _airlines = (await data) as Airline[]
         setAirlines(_airlines)
+        setAirlineName(_airlines.at(0)?.airline_name)
       }
-      console.log(airlines)
     }
     void loadAirlines()
   })
 
-  const handleAirportAdd = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleAirlineAdd = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log(airlineName)
     const res = await fetch("/api/airlines", {
       method: "DELETE",
       headers: {
@@ -39,12 +38,11 @@ export default function Example() {
       },
       body: JSON.stringify({ airline_name: airlineName }),
     })
-    console.log(res.status)
     setResCode(res.status.toString())
   }
 
   return (
-    <div>
+    <div className="flex items-center justify-center mt-20">
       <Card color="transparent" shadow={false} className="text-foreground">
         <Typography variant="h4">Delete Airline</Typography>
         <Typography color="white" className="mt-1 font-normal">
@@ -52,13 +50,14 @@ export default function Example() {
         </Typography>
         <form
           className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"
-          onSubmit={handleAirportAdd}
+          onSubmit={handleAirlineAdd}
         >
           {airlines ? (
             <>
               <div className="mb-4 flex flex-col gap-6">
                 <Select
                   label="Airline Name"
+                  value={airlines.at(0)?.airline_name}
                   animate={{
                     mount: { y: 0 },
                     unmount: { y: 25 },

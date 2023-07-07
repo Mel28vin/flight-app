@@ -23,6 +23,7 @@ export default function FlightDelete() {
         const data = res.json()
         const _flights = (await data) as FlightLeg[]
         setFlights(_flights)
+        setFlightNum(_flights.at(0)?.flight_number)
       }
     }
     void loadFlights()
@@ -44,7 +45,7 @@ export default function FlightDelete() {
   }
 
   return (
-    <div>
+    <div className="flex items-center justify-center mt-20">
       <Card color="transparent" shadow={false} className="text-foreground">
         <Typography variant="h4">Delete Flight</Typography>
         <Typography color="white" className="mt-1 font-normal">
@@ -59,6 +60,7 @@ export default function FlightDelete() {
               <div className="mb-4 flex flex-col gap-6">
                 <Select
                   label="Flight Number"
+                  value={flights.at(0)?.flight_number}
                   animate={{
                     mount: { y: 0 },
                     unmount: { y: 25 },
@@ -73,6 +75,7 @@ export default function FlightDelete() {
                   type="date"
                   size="lg"
                   label="Departure Date"
+                  required
                   onChange={(e) => setInputDate(e.target.value)}
                 />
               </div>
