@@ -30,7 +30,8 @@ export default function Login() {
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const route = email == process.env.NEXT_PUBLIC_ADMIN_MAIL ? "/admin" : "/user"
+    const route =
+      email == process.env.NEXT_PUBLIC_ADMIN_MAIL ? "/admin" : "/user"
     console.log(route)
     await supabase.auth.signInWithPassword({
       email,
@@ -74,6 +75,9 @@ export default function Login() {
         >
           {view === "sign-up" ? (
             <>
+              <h1 className="text-3xl text-foreground text-center py-3">
+                Sign Up
+              </h1>
               <label className="text-md" htmlFor="name">
                 Full Name
               </label>
@@ -85,7 +89,9 @@ export default function Login() {
                 placeholder="Your Name"
               />{" "}
             </>
-          ) : null}
+          ) : (
+            <h1 className="text-3xl text-foreground text-center py-3">Login</h1>
+          )}
           <label className="text-md" htmlFor="email">
             Email
           </label>
@@ -122,7 +128,7 @@ export default function Login() {
           )}
           {view === "sign-in" && (
             <>
-              <button className="bg-green-700 rounded px-4 py-2 text-white mb-6">
+              <button className="bg-green-700 rounded px-4 py-2 text-white mb-6 hover:bg-green-500 active:bg-green-500">
                 Sign In
               </button>
               <p className="text-sm text-center">
@@ -138,7 +144,7 @@ export default function Login() {
           )}
           {view === "sign-up" && (
             <>
-              <button className="bg-green-700 rounded px-4 py-2 text-white mb-6">
+              <button className="bg-green-700 rounded px-4 py-2 text-white mb-6 hover:bg-green-500 active:bg-green-500">
                 Sign Up
               </button>
               <p className="text-sm text-center">

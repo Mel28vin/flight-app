@@ -1,9 +1,7 @@
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline"
-import { UserPlusIcon, ArchiveBoxXMarkIcon } from "@heroicons/react/24/solid"
+import { UserPlusIcon} from "@heroicons/react/24/solid"
 import {
   Card,
   CardHeader,
-  Input,
   Typography,
   Button,
   CardBody,
@@ -38,7 +36,7 @@ export default async function Flights() {
         shadow={false}
         className="rounded-none"
       >
-        <div className="mb-8 flex items-center justify-between gap-8">
+        <div className="my-3 flex items-center justify-between gap-8">
           <div>
             <Typography variant="h5" className="text-foreground">
               Flights list
@@ -65,16 +63,8 @@ export default async function Flights() {
             </Link>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <div className="w-full md:w-72">
-            <Input
-              label="Search"
-              icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-            />
-          </div>
-        </div>
       </CardHeader>
-      <CardBody color="transparent" className="overflow-scroll px-0">
+      <CardBody color="transparent" className="overflow-auto px-0">
         <table className="mt-4 w-full min-w-max table-auto text-left">
           <thead>
             <tr>

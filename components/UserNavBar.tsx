@@ -7,26 +7,28 @@ const signOut = async () => {
   "use server"
   const supabase = createServerActionClient({ cookies })
   await supabase.auth.signOut()
-  redirect("/admin-login")
+  redirect("/login")
 }
 
-export default function AdminNavBar() {
+interface UserProps {
+  name: string
+}
+
+const UserNavBar: React.FC<UserProps> = ({ name }) => {
   return (
     <nav className="flex items-center justify-between gap-3 text-foreground border-b border-b-foreground/10 h-16">
       <Link href="/" className="group ml-2">
         <h2 className="p-2 text-lg font-semibold tracking-tighter">
-          Hello Admin
+          Hello {name}
         </h2>
       </Link>
       <div className="items-center gap-6 flex">
-        <Link href="/admin/airlines" className="inline-flex items-center gap-1">
-          Airlines
+        <Link href="/user/search" className="inline-flex items-center gap-1">
+          Search Flights
         </Link>
-        <Link href="/admin/airports" className="inline-flex items-center gap-1">
-          Airports
+        <Link href="/user/booking" className="inline-flex items-center gap-1">
+          My Bookings
         </Link>
-        <Link href="/admin/flights">Flights</Link>
-        <Link href="/admin/booking">Bookings</Link>
         <form action={signOut}>
           <button className="text-neutral-100 mr-4 py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">
             Logout
@@ -36,3 +38,5 @@ export default function AdminNavBar() {
     </nav>
   )
 }
+
+export default UserNavBar

@@ -20,18 +20,8 @@ export default async function UserPage() {
   }
 
   return (
-    <div className="w-full flex flex-col items-center">
-      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm text-foreground">
-          <div />
-          <div>
-            <div className="flex items-center gap-4">
-              Hey, {user.user_metadata.name}!
-              <LogoutButton />
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="w-full flex flex-col items-center text-foreground">
+      <h1 className="text-5xl mt-32"> Welcome to the User Dashboard</h1>
     </div>
   )
 }
