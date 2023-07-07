@@ -25,14 +25,12 @@ export default function Example() {
         setAirports(_airports)
         setAirportName(_airports.at(0)?.name)
       }
-      // console.log(airports)
     }
     void loadAirports()
   }, [resCode])
 
   const handleAirportAdd = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // console.log(airportName)
     const res = await fetch("/api/airports", {
       method: "DELETE",
       headers: {
@@ -40,7 +38,6 @@ export default function Example() {
       },
       body: JSON.stringify({ name: airportName }),
     })
-    // console.log(res.status)
     setResCode(res.status.toString())
   }
 

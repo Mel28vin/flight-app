@@ -32,7 +32,6 @@ export default function Login() {
     e.preventDefault()
     const route =
       email == process.env.NEXT_PUBLIC_ADMIN_MAIL ? "/admin" : "/user"
-    console.log(route)
     await supabase.auth.signInWithPassword({
       email,
       password,

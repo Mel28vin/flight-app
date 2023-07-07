@@ -68,7 +68,6 @@ export default function Search() {
       }),
     })
     const data = await res.json()
-    console.log(data)
     const _flights = (await data) as FlightLeg[]
     setFlights(_flights)
     setResCode(res.status.toString())
@@ -91,7 +90,6 @@ export default function Search() {
 
     if (!user) throw new Error("Log in")
     setBookResCode(null)
-    console.log(flight_number)
     if (max_seats < 1) {
       setBookResCode("400")
       return
@@ -128,7 +126,6 @@ export default function Search() {
         max_seats: max_seats,
       }),
     })
-    console.log(patchRes.status)
     setBookResCode(res.status.toString())
   }
 

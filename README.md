@@ -1,48 +1,123 @@
-# Supabase Starter
+# Flight Ticket Booking App
 
-This starter configures Supabase Auth to use cookies, making the user's session available throughout the entire Next.js app - Client Components, Server Components, Route Handlers, Server Actions and Middleware.
+This Web Application uses bleeding edge technologies such as [React 18](https://react.dev/), [NextJS 13](https://nextjs.org/) (Client Components, Server Components, Server Actions and API), [Tailwind](https://tailwindcss.com/), [Supabase Auth](https://supabase.com/docs/guides/auth) and a [Postgres Database](https://www.postgresql.org/) using [Supabase](https://supabase.com/) connected using [Prisma ORM](https://www.prisma.io/). The project is deployed using [Vercel](https://vercel.com/) as shown. [Deployment Link.](https://melvin-flight-app.vercel.app/)
 
-## Deploy your own
+## About me
 
-The Vercel deployment will guide you through creating a Supabase account and project. After installation of the Supabase integration, all relevant environment variables will be set up so that the project is usable immediately after deployment 🚀
+I'm Melvin Jebasamuel Danielraj, a Final year student of the ECE department of VCET - Madurai. [Click here to check out more about me.](https://mels.vercel.app)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-supabase&project-name=nextjs-with-supabase&repository-name=nextjs-with-supabase&integration-ids=oac_jUduyjQgOyzev1fjrW83NYOv)
+## Admin Functionalities
 
-## How to use
+- The `/admin/airlines` route lists all airlines with functionality to add and remove them.
+- The `/admin/airports` route lists all airports with functionality to add and remove them.
+- The `/admin/flights` route lists all flights with functionality to add and remove them.
+- The `/admin/booking` route lists all bookings.
 
-1. Create a [new Supabase project](https://database.new)
-1. Run `npx create-next-app -e with-supabase` to create a Next.js app using the Supabase Starter template
-1. Use `cd` to change into the app's directory
-1. Run `npm install` to install dependencies
-1. Rename `.env.local.example` to `.env.local` and update the values for `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` from [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
-1. Run `npm run dev` to start the local development server
+## User Functionalities
 
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
+- The `/user/search` route searches and displays flights with respect to date, arrival airpot and departure airport and also provides the `booking` functionality.
+- The `/user/booking` route lists all bookings made by that user.
 
-### Create a Supabase client
+## Working of the App
 
-Check out the [`/app/_examples`](./app/_examples/) folder for an example of creating a Supabase client in:
+1. The `app` directory consists of all pages where each `folder_name` signifies a route, the `page.tsx` file represents the page content, `layout.tsx` defines the page layout and `loading.tsx` defines the loaders for each route.
+1. The `app/page.tsx` is the Home page of the app and `app/layout.tsx` defines the `RootLayout` of the application.
+1. The `app/api` is a special directory which is the `REST API` where each subfolder represents an `API Route` represented by the `route.ts` file.
+1. From the latest NextJS and React version, we have access to both `Client Components` and `Server Components`. Client Components are explicitly marked by `"use client"` in the beginning.
+1. `Client Components` make use of state hooks and other features to obtain / post / delete information from the database using the `API routes`
+1. Thus the `app/api` works as the `backend` of this app using serverless functions from Vercel. (`AWS Lambda Serverless Functions`)
+1. The `Server Components` can fetch data without the requirement of `api` using `async` components.
+1. The `app/auth` directory specifies the main Authentication and Authorization logic.
+1. The `prisma` folder defines the schemas of the Postgres database hoisted using Supabase.
+1. Styling of the app is done mainly using Tailwind.
 
-- [Client Components](./app/_examples/client-component/page.tsx)
-- [Server Components](./app/_examples/server-component/page.tsx)
-- [Route Handlers](./app/_examples/route-handler/route.ts)
-- [Server Actions](./app/_examples/server-action/page.tsx)
+## Directory Structure
 
-### Create `todo` table and seed with data (optional)
+```
+.
+├── app
+│   ├── admin
+│   │   ├── airlines
+│   │   │   ├── add
+│   │   │   │   └── page.tsx
+│   │   │   ├── delete
+│   │   │   │   └── page.tsx
+│   │   │   ├── loading.tsx
+│   │   │   └── page.tsx
+│   │   ├── airports
+│   │   │   ├── add
+│   │   │   │   └── page.tsx
+│   │   │   ├── delete
+│   │   │   │   └── page.tsx
+│   │   │   ├── loading.tsx
+│   │   │   └── page.tsx
+│   │   ├── booking
+│   │   │   ├── loading.tsx
+│   │   │   └── page.tsx
+│   │   ├── flights
+│   │   │   ├── add
+│   │   │   │   └── page.tsx
+│   │   │   ├── delete
+│   │   │   │   └── page.tsx
+│   │   │   ├── loading.tsx
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   ├── loading.tsx
+│   │   └── page.tsx
+│   ├── admin-login
+│   │   └── page.tsx
+│   ├── api
+│   │   ├── airlines
+│   │   │   └── route.ts
+│   │   ├── airports
+│   │   │   └── route.ts
+│   │   ├── book
+│   │   │   └── route.ts
+│   │   ├── find
+│   │   │   └── route.ts
+│   │   └── flights
+│   │       └── route.ts
+│   ├── auth
+│   │   └── callback
+│   │       └── route.ts
+│   ├── globals.css
+│   ├── icon.png
+│   ├── layout.tsx
+│   ├── login
+│   │   └── page.tsx
+│   ├── page.tsx
+│   └── user
+│       ├── booking
+│       │   ├── loading.tsx
+│       │   └── page.tsx
+│       ├── layout.tsx
+│       ├── loading.tsx
+│       ├── page.tsx
+│       └── search
+│           ├── loading.tsx
+│           └── page.tsx
+├── components
+│   ├── AdminNavBar.tsx
+│   ├── LogoutButton.tsx
+│   ├── MaterialComponents.tsx
+│   ├── NoPermissions.tsx
+│   └── UserNavBar.tsx
+├── middleware.ts
+├── next.config.js
+├── next-env.d.ts
+├── package.json
+├── package-lock.json
+├── postcss.config.js
+├── prisma
+│   └── schema.prisma
+├── README.md
+├── server
+│   └── db.ts
+├── supabase
+│   ├── migrations
+│   │   └── 20230618024722_init.sql
+│   └── seed.sql
+├── tailwind.config.js
+└── tsconfig.json
 
-Navigate to [your project's SQL Editor](https://app.supabase.com/project/_/sql), click `New query`, paste the contents of the [init.sql](./supabase/migrations/20230618024722_init.sql) file and click `RUN`.
-
-This will create a basic `todos` table, enable Row Level Security (RLS), and write RLS policies enabling `select` and `insert` actions for `authenticated` users.
-
-To seed your `todos` table with some dummy data, run the contents of the [seed.sql](./supabase/seed.sql) file.
-
-## Feedback and issues
-
-Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
-
-## More Supabase examples
-
-- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
-- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
-- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
-- [Next.js Auth Helpers Docs](https://supabase.com/docs/guides/auth/auth-helpers/nextjs)
+```

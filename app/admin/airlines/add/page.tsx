@@ -19,7 +19,6 @@ export default function Example() {
       }),
     })
     setResCode(res.status.toString())
-    console.log(res.status)
   }
 
   return (

@@ -13,7 +13,6 @@ export async function GET(_request: Request) {
 export async function POST(request: Request) {
   try {
     const json = await request.json()
-    console.log(json)
 
     const user = await prisma.reservation.create({
       data: json,
@@ -36,7 +35,6 @@ export async function POST(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const json = await request.json()
-    console.log(json.max_seats)
     await prisma.flightLeg.update({
       where: {
         flight_number_scheduled_departure_date: {

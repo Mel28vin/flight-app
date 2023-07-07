@@ -33,7 +33,6 @@ export default function Example() {
         setAirlines(_airlines)
         setName(_airlines.at(0)?.airline_name)
       }
-      // console.log(airlines)
     }
     async function loadAirports() {
       if (!airports) {
@@ -44,7 +43,6 @@ export default function Example() {
         setDAirport(_airports.at(0)?.name)
         setAAirport(_airports.at(1)?.name)
       }
-      // console.log(airports)
     }
     void loadAirlines()
     void loadAirports()
@@ -53,7 +51,6 @@ export default function Example() {
   const handleFlightAdd = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setResCode(null)
-    // console.log(dAirportTime)
     const res = await fetch("/api/flights", {
       method: "POST",
       headers: {
@@ -72,7 +69,6 @@ export default function Example() {
       }),
     })
     setResCode(res.status.toString())
-    console.log(res.status)
   }
 
   return (
