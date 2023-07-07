@@ -14,9 +14,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <main className="min-h-screen bg-background flex flex-col items-center">
-          <ThemeProvider>
-          {children}
-          </ThemeProvider>
+          <ThemeProvider>{children}</ThemeProvider>
         </main>
       </body>
     </html>
